@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <nav class="admin-nav">
+            <a href="<?php echo BASE_URL; ?>/admin/dashboard">Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products" style="color: var(--primary-color); font-weight: bold;">Productos</a>
+            <a href="<?php echo BASE_URL; ?>/admin/orders">Pedidos</a>
+        </nav>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content" style="max-width: 600px; margin: 0 auto;">
+        <div class="page-header">
+            <h1>Editar Producto</h1>
+            <a href="<?php echo BASE_URL; ?>/admin/products" class="btn-edit" style="text-decoration: none;">Cancelar</a>
+        </div>
+
+        <div style="background: var(--white); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <form action="<?php echo BASE_URL; ?>/admin/edit_product?id=<?php echo $producto['id_producto']; ?>" method="POST">
+                
+                <div class="form-group">
+                    <label>Nombre del Producto *</label>
+                    <input type="text" name="nombre" value="<?php echo htmlspecialchars($producto['nombre']); ?>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" rows="3" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;"><?php echo htmlspecialchars($producto['descripcion']); ?></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Precio *</label>
+                        <input type="number" name="precio" step="0.01" value="<?php echo $producto['precio']; ?>" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Stock</label>
+                        <input type="number" name="stock" value="<?php echo $producto['stock']; ?>">
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Categoría *</label>
+                        <select name="id_categoria" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <?php foreach($categorias as $cat): ?>
+                                <option value="<?php echo $cat['id_categoria']; ?>" <?php echo ($cat['id_categoria'] == $producto['id_categoria']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($cat['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Estado</label>
+                        <select name="estado" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <option value="Activo" <?php echo ($producto['estado'] == 'Activo') ? 'selected' : ''; ?>>Activo</option>
+                            <option value="Inactivo" <?php echo ($producto['estado'] == 'Inactivo') ? 'selected' : ''; ?>>Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Actualizar Producto</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

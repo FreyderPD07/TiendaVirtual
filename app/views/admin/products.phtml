@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <nav class="admin-nav">
+            <a href="<?php echo BASE_URL; ?>/admin/dashboard">Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/admin/orders" style="color: var(--primary-color); font-weight: bold;">Pedidos</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products" style="color: var(--primary-color); font-weight: bold;">Productos</a>
+        </nav>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <div class="page-header">
+            <h1>Gestión de Productos</h1>
+            <a href="<?php echo BASE_URL; ?>/admin/create_product" class="btn-primary" style="text-decoration: none; display: inline-block;">+ Nuevo Producto</a>
+        </div>
+
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($productos as $producto): ?>
+                        <tr>
+                            <td>#<?php echo $producto['id_producto']; ?></td>
+                            <td>
+                                <div style="width: 40px; height: 40px; background: #e5e7eb; border-radius: 4px;"></div>
+                            </td>
+                            <td><strong><?php echo htmlspecialchars($producto['nombre']); ?></strong></td>
+                            <td><?php echo htmlspecialchars($producto['categoria_nombre']); ?></td>
+                            <td>$<?php echo number_format($producto['precio'], 2); ?></td>
+                            <td><?php echo $producto['stock']; ?> unids.</td>
+                            <td>
+                                <?php if($producto['estado'] == 'Activo'): ?>
+                                    <span class="badge badge-active">Activo</span>
+                                <?php else: ?>
+                                    <span class="badge badge-inactive">Inactivo</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="actions">
+                                <a href="<?php echo BASE_URL; ?>/admin/edit_product?id=<?php echo $producto['id_producto']; ?>" class="btn-edit" style="text-decoration: none;">Editar</a>
+                                <a href="<?php echo BASE_URL; ?>/admin/delete_product?id=<?php echo $producto['id_producto']; ?>" class="btn-delete" style="text-decoration: none;" onclick="return confirm('¿Estás seguro de eliminar este producto?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

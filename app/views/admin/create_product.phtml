@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Producto - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <nav class="admin-nav">
+            <a href="<?php echo BASE_URL; ?>/admin/dashboard">Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products" style="color: var(--primary-color); font-weight: bold;">Productos</a>
+        </nav>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content" style="max-width: 600px; margin: 0 auto;">
+        <div class="page-header">
+            <h1>Nuevo Producto</h1>
+            <a href="<?php echo BASE_URL; ?>/admin/products" style="text-decoration: none; color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 15px; border-radius:6px;">Volver</a>
+        </div>
+
+        <?php if(!empty($error)): ?>
+            <div class="alert-error"><?php echo $error; ?></div>
+        <?php endif; ?>
+
+        <div style="background: var(--white); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <form action="<?php echo BASE_URL; ?>/admin/create_product" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Nombre del Producto *</label>
+                    <input type="text" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" rows="3" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; resize: vertical;"></textarea>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Precio *</label>
+                        <input type="number" name="precio" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Stock Inicial</label>
+                        <input type="number" name="stock" min="0" value="0">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Categoría *</label>
+                        <select name="id_categoria" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: white;">
+                            <option value="">-- Seleccionar --</option>
+                            <?php foreach($categorias as $cat): ?>
+                                <option value="<?php echo $cat['id_categoria']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Estado</label>
+                        <select name="estado" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: white;">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 10px;">
+                    <label>Imagen del Producto</label>
+                    <input type="file" name="imagen" accept="image/*" style="border: none; padding: 0;">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Guardar Producto</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

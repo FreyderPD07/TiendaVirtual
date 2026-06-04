@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            
+            <a href="<?php echo BASE_URL; ?>/admin/orders" style="color: var(--primary-color); font-weight: bold;">Pedidos</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products" style="color: var(--primary-color); font-weight: bold;">Productos</a>
+
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <h1>Bienvenido al Dashboard</h1>
+        <p style="margin-top: 15px; color: var(--text-muted);">
+            Desde aquí podrás gestionar tus productos, categorías y pedidos.
+        </p>
+        
+        </main>
+
+</body>
+</html>

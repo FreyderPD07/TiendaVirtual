@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Carrito - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <header class="public-header">
+        <div class="logo">Mi Tienda</div>
+        <nav>
+            <a href="<?php echo BASE_URL; ?>/shop/index">Catálogo</a>
+            <a href="<?php echo BASE_URL; ?>/cart/index" style="color: var(--primary-color); font-weight: bold;">🛒 Carrito (<?php echo count($_SESSION['cart']); ?>)</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Tu Carrito de Compras</h1>
+
+        <?php if(empty($_SESSION['cart'])): ?>
+            <div style="text-align: center; padding: 40px;">
+                <p style="color: var(--text-muted); font-size: 18px;">Tu carrito está vacío actualmente.</p>
+                <a href="<?php echo BASE_URL; ?>/shop/index" class="btn-primary" style="display: inline-block; margin-top: 20px; text-decoration: none;">Ir a comprar</a>
+            </div>
+        <?php else: ?>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $total = 0;
+                        foreach($_SESSION['cart'] as $id => $item): 
+                            $subtotal = $item['precio'] * $item['cantidad'];
+                            $total += $subtotal;
+                        ?>
+                            <tr>
+                                <td><strong><?php echo htmlspecialchars($item['nombre']); ?></strong></td>
+                                <td>$<?php echo number_format($item['precio'], 2); ?></td>
+                                <td><?php echo $item['cantidad']; ?></td>
+                                <td>$<?php echo number_format($subtotal, 2); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr style="background: #f9fafb; font-size: 18px;">
+                            <td colspan="3" style="text-align: right; font-weight: bold;">Total a Pagar:</td>
+                            <td style="font-weight: bold; color: var(--primary-color);">$<?php echo number_format($total, 2); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <a href="<?php echo BASE_URL; ?>/cart/clear" class="btn-delete" style="text-decoration: none; border: 1px solid var(--danger); padding: 10px 20px; border-radius: 6px;">Vaciar Carrito</a>
+                <a href="<?php echo BASE_URL; ?>/cart/checkout" class="btn-primary" style="text-decoration: none; padding: 10px 20px; border-radius: 6px; display: inline-block;">Finalizar Compra</a>
+            </div>
+        <?php endif; ?>
+    </main>
+</body>
+</html>

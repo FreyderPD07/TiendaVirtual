@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Pedido #<?php echo $pedido['id_pedido']; ?></title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <nav class="admin-nav">
+            <a href="<?php echo BASE_URL; ?>/admin/dashboard">Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products">Productos</a>
+            <a href="<?php echo BASE_URL; ?>/admin/orders" style="color: var(--primary-color); font-weight: bold;">Pedidos</a>
+        </nav>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content" style="max-width: 800px; margin: 0 auto;">
+        <div class="page-header">
+            <h1>Pedido #<?php echo $pedido['id_pedido']; ?></h1>
+            <a href="<?php echo BASE_URL; ?>/admin/orders" style="text-decoration: none; color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 15px; border-radius:6px;">Volver al Listado</a>
+        </div>
+
+        <div style="background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 20px; display: flex; justify-content: space-between;">
+            <div>
+                <p><strong>Cliente:</strong> <?php echo htmlspecialchars($pedido['cliente_nombre']); ?></p>
+                <p><strong>Fecha:</strong> <?php echo date('d/m/Y H:i', strtotime($pedido['fecha_pedido'])); ?></p>
+            </div>
+            <div style="text-align: right;">
+                <p><strong>Estado Actual:</strong> <span class="badge badge-active" style="background:#dcfce7; color:#166534;"><?php echo $pedido['estado']; ?></span></p>
+                <p><strong>Total de la Orden:</strong> <span style="font-size: 18px; font-weight: bold; color: var(--primary-color);">$<?php echo number_format($pedido['total'], 2); ?></span></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 15px; color: var(--text-main);">Artículos Solicitados</h3>
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($detalles as $item): ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($item['producto_nombre']); ?></strong></td>
+                            <td>$<?php echo number_format($item['precio_unitario'], 2); ?></td>
+                            <td><?php echo $item['cantidad']; ?> unidades</td>
+                            <td style="font-weight: bold;">$<?php echo number_format($item['subtotal'], 2); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

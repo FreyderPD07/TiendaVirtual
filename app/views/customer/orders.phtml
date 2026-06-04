@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Pedidos - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <header class="public-header">
+        <div class="logo">Mi Tienda</div>
+        <nav style="display: flex; align-items: center; gap: 15px;">
+            <a href="<?php echo BASE_URL; ?>/shop/index">Catálogo</a>
+            <a href="<?php echo BASE_URL; ?>/customer/orders" style="font-weight: bold; color: #2563eb;">Mis Pedidos</a>
+            <a href="<?php echo BASE_URL; ?>/cart/index">🛒 Carrito (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)</a>
+            <span style="color: #374151;">Hola, <strong><?php echo htmlspecialchars($_SESSION['nombre_completo']); ?></strong></span>
+            <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: #dc2626; font-weight: bold; text-decoration: none;">Cerrar Sesión</a>
+        </nav>
+    </header>
+
+    <main class="container" style="margin-top: 40px;">
+        <h1 class="page-title">Mi Historial de Pedidos</h1>
+        <p style="color: #6b7280; margin-bottom: 20px;">Aquí puedes hacer seguimiento a todas tus compras registradas.</p>
+
+        <?php if (empty($misPedidos)): ?>
+            <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <p style="font-size: 18px; color: #4b5563;">Aún no has realizado ninguna compra. ¡Anímate a ordenar tu primer producto!</p>
+                <a href="<?php echo BASE_URL; ?>/shop/index" class="btn-primary" style="display: inline-block; margin-top: 15px; text-decoration: none; padding: 10px 20px;">Ir al Catálogo</a>
+            </div>
+        <?php else: ?>
+            <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="background-color: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+                            <th style="padding: 15px; color: #4b5563;">N° Pedido</th>
+                            <th style="padding: 15px; color: #4b5563;">Fecha</th>
+                            <th style="padding: 15px; color: #4b5563;">Total</th>
+                            <th style="padding: 15px; color: #4b5563;">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($misPedidos as $pedido): ?>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <td style="padding: 15px; font-weight: bold; color: #2563eb;">#<?php echo $pedido['id_pedido']; ?></td>
+                                <td style="padding: 15px; color: #374151;"><?php echo $pedido['fecha_registro'] ?? $pedido['fecha'] ?? 'Reciente'; ?></td>
+                                <td style="padding: 15px; font-weight: bold; color: #111827;">$<?php echo number_format($pedido['total'], 2); ?></td>
+                                <td style="padding: 15px;">
+                                    <span style="padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold; 
+                                        background-color: <?php echo ($pedido['estado'] == 'Pendiente') ? '#fef3c7' : '#d1fae5'; ?>; 
+                                        color: <?php echo ($pedido['estado'] == 'Pendiente') ? '#d97706' : '#065f46'; ?>;">
+                                        <?php echo htmlspecialchars($pedido['estado'] ?? 'Pendiente'); ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </main>
+</body>
+</html>

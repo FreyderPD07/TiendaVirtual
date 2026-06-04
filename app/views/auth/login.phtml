@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+<main>
+    <div class="login-container">
+        <h2>Bienvenido a la Tienda</h2>
+        <p>Ingresa tus datos para continuar</p>
+
+        <?php if (!empty($error)): ?>
+            <div style="background-color: #fee2e2; color: #dc2626; padding: 10px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #fca5a5; font-weight: bold; text-align: center;">
+                <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="<?php echo BASE_URL; ?>/auth/login" method="POST">
+            
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" name="email" required placeholder="tucorreo@ejemplo.com">
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="password" required placeholder="Ingresa tu contraseña">
+            </div>
+
+            <button type="submit" class="btn-primary">Iniciar Sesión</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

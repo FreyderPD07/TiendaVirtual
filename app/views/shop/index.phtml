@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    <header class="public-header">
+        <div class="logo">Mi Tienda</div>
+        <nav style="display: flex; align-items: center; gap: 15px;">
+            <a href="<?php echo BASE_URL; ?>/shop/index">Catálogo</a>
+            <a href="<?php echo BASE_URL; ?>/cart/index" style="color: var(--primary-color); font-weight: bold;">
+                🛒 Carrito (<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>)
+            </a>
+
+            <?php if (isset($_SESSION['usuario_id'])): ?>
+                <?php if ($_SESSION['rol'] == 1): ?>
+                    <a href="<?php echo BASE_URL; ?>/admin/dashboard" style="color: #2563eb; font-weight: bold; text-decoration: none;">Volver al panel</a>
+                <?php endif; ?>
+
+                <a href="<?php echo BASE_URL; ?>/customer/orders" style="color: var(--text-main); text-decoration: none;">Mis Pedidos</a>
+
+                <span style="color: #374151;">Hola, <strong><?php echo htmlspecialchars($_SESSION['nombre_completo']); ?></strong></span>
+                
+                <a href="<?php echo BASE_URL; ?>/auth/logout" style="color: #dc2626; font-weight: bold; text-decoration: none;">Cerrar Sesión</a>
+            <?php else: ?>
+                <a href="<?php echo BASE_URL; ?>/auth/login" class="btn-login">Iniciar Sesión</a>
+            <?php endif; ?>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Nuestros Productos</h1>
+        
+        <div class="products-grid">
+            <?php foreach($productos as $producto): ?>
+                <div class="product-card">
+                    
+                    <div class="product-image-placeholder">
+                        <span>Imagen: <?php echo htmlspecialchars($producto['imagen']); ?></span>
+                    </div>
+                    
+                    <div class="product-info">
+                        <span class="category-badge"><?php echo htmlspecialchars($producto['categoria_nombre']); ?></span>
+                        <h3><?php echo htmlspecialchars($producto['nombre']); ?></h3>
+                        <p class="price">$<?php echo number_format($producto['precio'], 2); ?></p>
+                        
+                        <form action="<?php echo BASE_URL; ?>/cart/add" method="POST">
+                            <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
+                            <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <input type="hidden" name="precio" value="<?php echo $producto['precio']; ?>">
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <input type="number" name="cantidad" value="1" min="1" max="<?php echo $producto['stock']; ?>" style="width: 60px; padding: 5px; text-align: center; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <button type="submit" class="add-to-cart-btn" style="flex: 1; margin: 0;">Añadir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </main>
+</body>
+</html>

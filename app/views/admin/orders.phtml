@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos - Tienda Virtual</title>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+</head>
+<body>
+    
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <nav class="admin-nav">
+            <a href="<?php echo BASE_URL; ?>/admin/dashboard">Dashboard</a>
+            <a href="<?php echo BASE_URL; ?>/admin/products">Productos</a>
+            <a href="<?php echo BASE_URL; ?>/admin/orders" style="color: var(--primary-color); font-weight: bold;">Pedidos</a>
+        </nav>
+        <div>
+            <span>Hola, <b><?php echo htmlspecialchars($nombreAdmin); ?></b></span> | 
+            <a href="<?php echo BASE_URL; ?>/auth/logout" class="logout-btn">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <div class="page-header">
+            <h1>Gestión de Pedidos</h1>
+        </div>
+
+        <div class="table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>N° Pedido</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(empty($pedidos)): ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No hay pedidos registrados aún.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach($pedidos as $pedido): ?>
+                            <tr>
+                                <td><strong>#<?php echo $pedido['id_pedido']; ?></strong></td>
+                                <td><?php echo htmlspecialchars($pedido['cliente_nombre']); ?></td>
+                                <td><?php echo !empty($pedido['fecha_pedido']) ? date('d/m/Y H:i', strtotime($pedido['fecha_pedido'])) : 'Sin fecha'; ?></td>
+                                <td style="font-weight: bold; color: var(--primary-color);">$<?php echo number_format($pedido['total'], 2); ?></td>
+                                <td>
+                                    <?php 
+                                        // Colores dinámicos según el estado que pusiste en tu base de datos
+                                        $badgeClass = 'badge-inactive'; // Default (gris/rojo)
+                                        if($pedido['estado'] == 'Pendiente') $badgeClass = 'badge-inactive';
+                                        if($pedido['estado'] == 'Pagado') $badgeClass = 'badge-active';
+                                        if($pedido['estado'] == 'Enviado' || $pedido['estado'] == 'Entregado') $badgeClass = 'badge-active';
+                                    ?>
+                                    <span class="badge <?php echo $badgeClass; ?>"><?php echo $pedido['estado']; ?></span>
+                                </td>
+                                <td class="actions">
+                                    <a href="<?php echo BASE_URL; ?>/admin/order_detail?id=<?php echo $pedido['id_pedido']; ?>" class="btn-edit" style="text-decoration: none; font-weight: bold;">Ver Detalle</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>
