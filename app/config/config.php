@@ -1,14 +1,23 @@
 <?php
 // app/config/config.php
 
-// Configuración de la Base de Datos
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root'); // Cambia según tu entorno
-define('DB_PASS', 'admin');     // Cambia según tu entorno
-define('DB_NAME', 'tienda_virtual');
-define('DB_CHARSET', 'utf8mb4');
+// Detectar automáticamente si estamos en Render o en tu computadora
+if (isset($_ENV['RENDER']) || getenv('RENDER')) {
+    // ☁️ CONFIGURACIÓN PARA RENDER (Modo demostración sin base de datos externa)
+    define('DB_HOST', '127.0.0.1');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_NAME', 'tienda_virtual');
+    define('DB_CHARSET', 'utf8mb4');
+    define("BASE_URL", "https://tiendavirtual-render.onrender.com/");
+} else {
+    // 💻 CONFIGURACIÓN PARA TU COMPUTADORA (Localhost de siempre)
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root'); 
+    define('DB_PASS', 'admin'); 
+    define('DB_NAME', 'tienda_virtual');
+    define('DB_CHARSET', 'utf8mb4');
+    define("BASE_URL", "http://localhost/tienda_virtual/public/"); 
+}
 
-// Rutas de la aplicación
-// Modifica esto según la ruta de tu localhost (ej. http://localhost/tienda_virtual/public)
-define("BASE_URL", "https://tiendavirtual-render.onrender.com/");
 define('APP_PATH', dirname(dirname(__FILE__)));
