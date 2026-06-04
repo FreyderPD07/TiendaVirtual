@@ -1,21 +1,21 @@
 <?php
 // app/config/config.php
 
-// Si el host es false (como en Render), salta la conexión para que no de error
-if (DB_HOST === 'false') {
-    return null; 
-}
-
 if (isset($_ENV['RENDER']) || getenv('RENDER')) {
-    // ☁️ SI ESTÁ EN RENDER: Engañamos al sistema para que no use base de datos real
-    define('DB_HOST', 'false'); 
+    // ☁️ CONFIGURACIÓN PARA RENDER (Modo simulación para ver el diseño)
+    define('DB_HOST', 'localhost'); // Si te da error, puedes comentarlo o cambiarlo
     define('DB_USER', 'root');
     define('DB_PASS', '');
     define('DB_NAME', 'tienda_virtual');
     define('DB_CHARSET', 'utf8mb4');
     define("BASE_URL", "https://tiendavirtual-render.onrender.com/");
+    
+    // TRUCO: Si estás en Render, esto evita que el código muera por culpa de la base de datos
+    error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+    ini_set('display_errors', '0'); 
+    
 } else {
-    // 💻 EN TU COMPUTADORA: Sigue funcionando normal con tu Workbench
+    // 💻 CONFIGURACIÓN PARA TU COMPUTADORA (Localhost Workbench)
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root'); 
     define('DB_PASS', 'admin'); 
