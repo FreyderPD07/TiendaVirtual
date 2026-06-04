@@ -10,5 +10,5 @@ define('DB_CHARSET', 'utf8mb4');
 
 // Rutas de la aplicación
 // Modifica esto según la ruta de tu localhost (ej. http://localhost/tienda_virtual/public)
-define('BASE_URL', 'http://localhost:8000');
+define("BASE_URL", "https://tiendavirtual-render.onrender.com/");
 define('APP_PATH', dirname(dirname(__FILE__)));
