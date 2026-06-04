@@ -1,7 +1,7 @@
 <?php
 // app/config/config.php
 
-if (isset($_ENV['RENDER']) || getenv('RENDER'])) {
+if (isset($_ENV['RENDER']) || getenv('RENDER')) {
     // ☁️ CONFIGURACIÓN PARA RENDER (Sin la barra del final para evitar el //)
     define('DB_HOST', 'localhost'); 
     define('DB_USER', 'root');
